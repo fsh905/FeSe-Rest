@@ -3,5 +3,6 @@
     <packages>
         <package>xyz.fefine.controller</package>
     </packages>
-    <!--<interceptor class="xyz.fefine.servlet.SelfInterceptor" />-->
+    <interceptor class="xyz.fefine.controller.MyInterceptor" />
+
 </main>
