@@ -106,12 +106,14 @@ public class RequestHelper {
         Document doc = getDoc(packagePath);
         String[] packages = getPackageName(doc);
         this.interceptor = initInterceptor(doc);
-
         if (packages == null) {
             logger.error("package is null");
             return;
         }
         for (String pkName : packages) {
+            if (pkName == null) {
+                continue;
+            }
             scanPackage(pkName);
         }
     }
@@ -169,16 +171,16 @@ public class RequestHelper {
         NodeList nl = pks.getChildNodes();
 
         String[] scPkName = new String[nl.getLength()];
-
+        int l = 0;
         for (int i = 0; i < nl.getLength(); i++) {
-
             Node no = nl.item(i);
-
-            scPkName[i] = no.getTextContent();
-
-            //scanPackage(sacnPkName);
-            logger.info("scanPackageName:" + no.getTextContent());
-
+            if (no != null) {
+                String pkName = no.getTextContent();
+                if (pkName != null && !pkName.trim().equals("")) {
+                    scPkName[l++] = no.getTextContent();
+                    logger.info("scanPackageName:" + pkName);
+                }
+            }
         }
 
 

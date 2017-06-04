@@ -6,7 +6,7 @@
 
     <groupId>FeSe-Rest</groupId>
     <artifactId>FeSe-Rest</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.1</version>
     <packaging>jar</packaging>
 
     <build>
@@ -67,8 +67,8 @@
         <dependency>
             <groupId>FeSe</groupId>
             <artifactId>FeSe</artifactId>
-            <version>1.0-SNAPSHOT</version>
-            <systemPath>${basedir}/src/main/resources/FeSe-1.0-SNAPSHOT.jar</systemPath>
+            <version>1.1</version>
+            <systemPath>${basedir}/src/main/resources/FeSe-1.1.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>junit</groupId>

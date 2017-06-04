@@ -1,0 +1,12 @@
+package xyz.fefine;
+
+/**
+ * Created by feng_sh on 17-6-4.
+ * 启动
+ */
+public class Booter {
+    public static void main(String[] args) {
+        // launcher the application
+        bid.fese.Booter.boot();
+    }
+}
