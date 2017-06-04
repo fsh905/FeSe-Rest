@@ -1,12 +1,9 @@
 package bid.fese.prepare;
 
-import jdk.internal.org.objectweb.asm.Type;
 import org.junit.Test;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
-
-import static java.lang.Integer.TYPE;
 
 /**
  * Created by feng_sh on 17-5-31.

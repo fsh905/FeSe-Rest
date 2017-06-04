@@ -21,7 +21,7 @@
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>libs/</classpathPrefix>
                             <mainClass>
-                                bid.fese.Booter
+                                xyz.fefine.Booter
                             </mainClass>
                         </manifest>
                     </archive>
@@ -68,7 +68,6 @@
             <groupId>FeSe</groupId>
             <artifactId>FeSe</artifactId>
             <version>1.1</version>
-            <systemPath>${basedir}/src/main/resources/FeSe-1.1.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>junit</groupId>

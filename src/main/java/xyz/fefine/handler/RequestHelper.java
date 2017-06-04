@@ -25,10 +25,13 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
+import java.net.JarURLConnection;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.util.*;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
 import java.util.regex.Pattern;
 
 /**
@@ -218,25 +221,59 @@ public class RequestHelper {
     private void scanPackage(String pkName) {
         String path = pkName.replace(".", "/");
         URL url = Thread.currentThread().getContextClassLoader().getResource(path);
+
         try {
-            if (url != null && url.toString().startsWith("file")) {
-                String filePath = URLDecoder.decode(url.getFile(), "utf-8");
-                File dir = new File(filePath);
-                List<File> fileList = new ArrayList<>();
-                fetchFileList(dir, fileList);
-                for (File f : fileList) {
-                    String className = f.getAbsolutePath();
-                    if (className.endsWith(".class")) {
-                        String nosuffixFileName = className.substring(8 + className.lastIndexOf("classes"), className.indexOf(".class"));
-                        className = nosuffixFileName.replaceAll("\\\\", ".");
-                        // on unix this is /
-                        className = className.replaceAll("/", ".");
+            if (url != null) {
+                String protocol = url.getProtocol();
+                // 文件形式
+                if (protocol.equals("file")) {
+                    String filePath = URLDecoder.decode(url.getFile(), "utf-8");
+                    File dir = new File(filePath);
+                    List<File> fileList = new ArrayList<>();
+                    fetchFileList(dir, fileList);
+                    for (File f : fileList) {
+                        String className = f.getAbsolutePath();
+                        if (className.endsWith(".class")) {
+                            String nosuffixFileName = className.substring(8 + className.lastIndexOf("classes"), className.indexOf(".class"));
+                            className = nosuffixFileName.replaceAll("\\\\", ".");
+                            // on unix this is /
+                            className = className.replaceAll("/", ".");
+                        }
+                        logger.info("scanClassName:" + className);
+                        //扫描class
+                        scanClass(className);
                     }
-                    logger.info("scanClassName:" + className);
-                    //扫描class
-                    scanClass(className);
+                } else if (protocol.equals("jar")) {
+                    pkName = pkName.replaceAll("\\.", "/");
+                    JarFile jarFile = ((JarURLConnection)url.openConnection()).getJarFile();
+                    Enumeration<JarEntry> entries = jarFile.entries();
+                    while (entries.hasMoreElements()) {
+                        // 获取jar里的一个实体 可以是目录 和一些jar包里的其他文件 如META-INF等文件
+                        JarEntry entry = entries.nextElement();
+                        String name = entry.getName();
+                        // 如果是以/开头的
+                        if (name.charAt(0) == '/') {
+                            // 获取后面的字符串
+                            name = name.substring(1);
+                        }
+                        // 如果前半部分和定义的包名相同
+                        if (name.startsWith(pkName)) {
+                            int idx = name.lastIndexOf('/');
+                            if (idx != -1 && idx != name.length() - 1) {
+                                // 如果是一个.class文件 而且不是目录
+                                if (name.endsWith(".class")
+                                        && !entry.isDirectory()) {
+                                    // 去掉后面的".class" 获取真正的类名
+                                    String className = name.substring(0, name.length() - 6).replaceAll("/", ".");
+                                    scanClass(className);
+                                }
+                            }
+                        }
+                    }
                 }
+
             }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
