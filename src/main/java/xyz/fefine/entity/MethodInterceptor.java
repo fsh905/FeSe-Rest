@@ -13,7 +13,6 @@ import java.util.Arrays;
 /**
  * Created by feng_sh on 17-5-31.
  */
-
 public class MethodInterceptor implements InvocationHandler {
 
     private Object target;
@@ -28,7 +27,9 @@ public class MethodInterceptor implements InvocationHandler {
         this.interceptor = interceptor;
         this.request = request;
         this.response = response;
-        this.target = Class.forName(handler.getClassName()).newInstance();
+        // 这里每次都创建一个对象，这里不合适
+//        this.target = Class.forName(handler.getClassName()).newInstance();
+        this.target = handler.getClassInstance();
         this.handler = handler;
     }
 

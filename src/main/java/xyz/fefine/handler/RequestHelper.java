@@ -299,6 +299,7 @@ public class RequestHelper {
      */
     private void scanClass(String className) throws InstantiationException, IllegalAccessException, ClassNotFoundException {
         Class<?> cla = Class.forName(className);
+        Object classInstance = cla.newInstance();
         String classAnnoName = "";
         //类是否有path注解
         Path path = cla.getAnnotation(Path.class);
@@ -373,7 +374,7 @@ public class RequestHelper {
                 }
 
                 //保存到list中
-                save(className, methodName, classAnnoName, methodAnnoName, indexMap, typeMap, handler);
+                save(className, classInstance, methodName, classAnnoName, methodAnnoName, indexMap, typeMap, handler);
             }
         }
     }
@@ -387,7 +388,7 @@ public class RequestHelper {
      * @param map            参数
      * @param handler        处理器
      */
-    private void save(String className, String methodName, String classAnnoName, String methodAnnoName, Map<String, Integer> map, Map<String, TYPE> typeMap, RequestHandler handler) {
+    private void save(String className, Object classInstance, String methodName, String classAnnoName, String methodAnnoName, Map<String, Integer> map, Map<String, TYPE> typeMap, RequestHandler handler) {
         String url = classAnnoName + methodAnnoName;
         //将url改造成正则的形式
         //main/{a}/{b} -> main/[^/]+/[^/]+$
@@ -399,6 +400,7 @@ public class RequestHelper {
         Object[][] params = paramsLocation(url, map, typeMap);
         //参数的部分信息
         handler.setParamsInfo(params);
+        handler.setClassInstance(classInstance);
         handlers.insert(handler);
     }
 

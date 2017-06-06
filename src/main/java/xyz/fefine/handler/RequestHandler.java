@@ -43,6 +43,11 @@ public class RequestHandler implements Comparable {
     private String className;
 
     /**
+     * 类实例， 因为需要全局单例， 所以在扫描的时候就进行实例化， 然后放进handler
+     */
+    private Object classInstance;
+
+    /**
      * 参数信息
      */
     private Object paramsInfo[][];
@@ -94,6 +99,13 @@ public class RequestHandler implements Comparable {
         this.className = className;
     }
 
+    public Object getClassInstance() {
+        return classInstance;
+    }
+
+    public void setClassInstance(Object classInstance) {
+        this.classInstance = classInstance;
+    }
 
     public Object[][] getParamsInfo() {
         return paramsInfo;
