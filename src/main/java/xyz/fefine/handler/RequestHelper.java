@@ -12,6 +12,7 @@ import org.w3c.dom.NodeList;
 import org.w3c.dom.Node;
 import xyz.fefine.annotation.JsonData;
 import xyz.fefine.annotation.Path;
+import xyz.fefine.annotation.PathParam;
 import xyz.fefine.annotation.RequestParam;
 import xyz.fefine.entity.DefaultInterceptor;
 import xyz.fefine.entity.Interceptor;
@@ -337,7 +338,7 @@ public class RequestHelper {
                 Map<String, TYPE> typeMap = new Hashtable<>();
                 for (int ij = 0; ij < ps.length; ij++) {
                     Parameter p = ps[ij];
-                    RequestParam rp = p.getAnnotation(RequestParam.class);
+                    PathParam rp = p.getAnnotation(PathParam.class);
                     TYPE type = null;
                     String paramName = null;
                     if (rp != null) {

@@ -3,7 +3,7 @@ package xyz.fefine.controller;
 import bid.fese.entity.SeResponse;
 import xyz.fefine.annotation.JsonData;
 import xyz.fefine.annotation.Path;
-import xyz.fefine.annotation.RequestParam;
+import xyz.fefine.annotation.PathParam;
 
 import java.io.PrintWriter;
 import java.util.Arrays;
@@ -24,7 +24,7 @@ public class IndexController {
     }
 
     @Path("/page/{pn}")
-    public void showPage(@RequestParam("pn") int pn, SeResponse response) {
+    public void showPage(@PathParam("pn") int pn, SeResponse response) {
         PrintWriter pw = response.getPrintWriter();
         pw.write("this page is:" + pn);
         pw.write("this is a simple resp");
@@ -33,7 +33,7 @@ public class IndexController {
     }
 
     @Path("/params/{pk}/{pv}")
-    public void showParams(@RequestParam("pv") String pv, @RequestParam("pk") String pk, SeResponse response) {
+    public void showParams(@PathParam("pv") String pv, @PathParam("pk") String pk, SeResponse response) {
         PrintWriter pw = response.getPrintWriter();
         pw.write("this key is:" + pk);
         pw.write("this val is:" + pv);
@@ -60,7 +60,7 @@ public class IndexController {
 
     @Path("/data/{dn}")
     @JsonData
-    public Map<String, Object> showJsonData2(@RequestParam("dn") int dn) {
+    public Map<String, Object> showJsonData2(@PathParam("dn") int dn) {
         Map<String, Object> md = new Hashtable<>();
         md.put("name", "data");
         md.put("data num", dn);
@@ -74,7 +74,7 @@ public class IndexController {
 
     @Path("/data/{pk}/{pv}")
     @JsonData
-    public Map<String, Object> showJsonDataParams(@RequestParam("pv") String pv, @RequestParam("pk") String pk) {
+    public Map<String, Object> showJsonDataParams(@PathParam("pv") String pv, @PathParam("pk") String pk) {
         Map<String, Object> md = new Hashtable<>();
         md.put("pk", pk);
         md.put("pv", pv);

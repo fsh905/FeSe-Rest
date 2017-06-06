@@ -19,7 +19,6 @@ refer：[nio-httpserver](https://github.com/shenedu/nio-httpserver)
 ````
 #main dispatcher request handler
 dynamic_request_handler=xyz.fefine.MainDispatcherHandler
-
 #rest configure file
 rest_config_file=rest.xml
 ````
@@ -37,6 +36,7 @@ rest_config_file=rest.xml
   #### Sample:
  ~~~~
  // ----------controller sample------------
+     // default request method is get
      @Path("/index")
      public void index(SeResponse response) {
          response.getPrintWriter().write("this is index");
@@ -46,7 +46,7 @@ rest_config_file=rest.xml
      }
  
      @Path("/page/{pn}")
-     public void showPage(@RequestParam("pn") int pn, SeResponse response) {
+     public void showPage(@PathParam("pn") int pn, SeResponse response) {
          PrintWriter pw = response.getPrintWriter();
          pw.write("this page is:" + pn);
          pw.write("this is a simple resp");
@@ -56,7 +56,7 @@ rest_config_file=rest.xml
      }
  
      @Path("/params/{pk}/{pv}")
-     public void showParams(@RequestParam("pv") String pv, @RequestParam("pk") String pk, SeResponse response) {
+     public void showParams(@PathParam("pv") String pv, @PathParam("pk") String pk, SeResponse response) {
          PrintWriter pw = response.getPrintWriter();
          pw.write("this key is:" + pk);
          pw.write("this val is:" + pv);
@@ -84,7 +84,7 @@ rest_config_file=rest.xml
  
      @Path("/data/{dn}")
      @JsonData
-     public Map<String, Object> showJsonData2(@RequestParam("dn") int dn) {
+     public Map<String, Object> showJsonData2(@PathParam("dn") int dn) {
          Map<String, Object> md = new Hashtable<>();
          md.put("name", "data");
          md.put("data num", dn);
@@ -95,10 +95,10 @@ rest_config_file=rest.xml
          md.put("friends", mss);
          return md;
      }
- 
-     @Path("/data/{pk}/{pv}")
+     // post request
+     @Path(value = "/data/{pk}/{pv}", method = "post")
      @JsonData
-     public Map<String, Object> showJsonDataParams(@RequestParam("pv") String pv, @RequestParam("pk") String pk) {
+     public Map<String, Object> showJsonDataParams(@PathParam("pv") String pv, @PathParam("pk") String pk) {
          Map<String, Object> md = new Hashtable<>();
          md.put("pk", pk);
          md.put("pv", pv);
