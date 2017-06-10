@@ -1,5 +1,6 @@
 package bid.fese.prepare;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.Arrays;
@@ -21,11 +22,16 @@ public class PatternTest {
      */
 /*        Pattern p1 = Pattern.compile("\\W+.(jpg)|(gif)$");
         System.out.println(p1.matcher("mat.jpg").matches());*/
+/*
 
         Object[] os = new Object[3][2];
         for (int i = 0; i < os.length; i++) {
             os[i] = new Object[]{i, "" + i};
         }
         System.out.println(Arrays.deepToString(os));
+*/
+        Pattern pattern = Pattern.compile("/blog/name/[^/]+$");
+        System.out.println(pattern.matcher("/blog/name/").matches());
+        System.out.println(pattern.matcher("/blog/name/hehe").matches());
     }
 }

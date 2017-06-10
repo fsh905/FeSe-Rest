@@ -6,7 +6,12 @@ package xyz.fefine;
  */
 public class Booter {
     public static void main(String[] args) {
+        boot();
+    }
+
+    public static void boot() {
         // launcher the application
         bid.fese.Booter.boot();
     }
+
 }

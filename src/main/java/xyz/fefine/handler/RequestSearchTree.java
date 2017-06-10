@@ -76,16 +76,19 @@ public class RequestSearchTree<T extends RequestHandler> implements Comparator<T
         //感觉这里很不合理
         RequestHandler t = new RequestHandler();
         t.setUrl(url);
-        return findNode(root,(T)t).data;
+        Node<T> node = findNode(root,(T)t);
+        return node == null ? null : node.data;
     }
 
     private Node<T> findNode(Node<T> node,T t){
 
         if(node == null)
-            return node;
+            return null;
         int r = compare(node.data,t);
-        if(r == 0)
-            return node;
+        if(r == 0) {
+            return node.data.getUrlPattern().matcher(t.getUrl()).matches() ? node : null;
+        }
+
         if(r > 0)
             return findNode(node.left,t);
         else

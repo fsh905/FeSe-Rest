@@ -154,7 +154,7 @@ public class RequestHandler implements Comparable {
      * 是否符合
      */
     public boolean matcher(String url) {
-        return urlPattern.matcher(url).find();
+        return urlPattern.matcher(url).matches();
     }
 
 

@@ -41,7 +41,7 @@ public class MainDispatcherHandler implements DispatcherHandler{
         } catch (NoHandlerFoundException e) {
             logger.error("can't find request handler, url is:" + url);
             try {
-                response.getOutStream().write("no this handler,please inout a correct url".getBytes());
+                response.getOutStream().write("no this handler,please input a correct url".getBytes());
                 response.flush();
             } catch (IOException es) {
                 logger.error("response writer error", es);
